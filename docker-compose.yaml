@@ -13,6 +13,7 @@ services:
       start_period: 30s
     environment:
       APP_ENV: prod
+      BASE_URL: ${BASE_URL}
       MERCURE_URL: http://caddy/.well-known/mercure
       MERCURE_PUBLIC_URL: ${MERCURE_PUBLIC_URL:-https://localhost/.well-known/mercure}
       MERCURE_JWT_SECRET: ${MERCURE_JWT_SECRET}
@@ -27,6 +28,7 @@ services:
     environment:
       APP_ENV: prod
       SERVER_NAME: ${SERVER_NAME:-localhost, caddy:80}
+      BASE_URL: ${BASE_URL}
       MERCURE_PUBLISHER_JWT: ${MERCURE_JWT_SECRET}
       MERCURE_SUBSCRIBER_JWT: ${MERCURE_JWT_SECRET}
     restart: unless-stopped

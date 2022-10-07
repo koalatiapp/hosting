@@ -55,7 +55,7 @@ if [ ! -f ".env.example" ]; then
 fi
 
 echo "Enter the desired host name for your Koalati installation."
-echo "Ex.: koalati.mydomain.com"
+echo "Ex.: \"koalati.mydomain.com\", \"localhost\", etc."
 read -p "Hostname > " hostname
 hostname=`sed "s/https\{0,1\}:\/\///" <<< $hostname`
 hostname=`sed "s/\/.*//" <<< $hostname`
@@ -66,6 +66,7 @@ cp ".env.example" ".env"
 
 # Replace "localhost" instances with hostname
 set_env_value "SERVER_NAME" "$hostname, caddy:80"
+set_env_value "BASE_URL" "https:\/\/$hostname"
 set_env_value "MERCURE_PUBLIC_URL" "https:\/\/$hostname\/.well-known\/mercure"
 
 # Generate passwords / secrets
