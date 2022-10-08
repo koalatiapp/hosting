@@ -69,6 +69,8 @@ set_env_value "SERVER_NAME" "$hostname, caddy:80"
 set_env_value "BASE_URL" "https:\/\/$hostname"
 set_env_value "MERCURE_PUBLIC_URL" "https:\/\/$hostname\/.well-known\/mercure"
 
+echo "✅ Your .env file has been created."
+
 # Generate passwords / secrets
 set_env_value "APP_SECRET" `generate_secret 64`
 set_env_value "REDIS_PASSWORD" `generate_secret`
@@ -83,3 +85,7 @@ set_env_value "TOOLS_API_AUTH_ACCESS_TOKEN" "$tools_api_auth_access_token"
 set_env_value "TOOLS_API_WORKER_BEARER_TOKEN" `generate_jwt "{ \"access_token\": \"$tools_api_auth_access_token\" }" "$tools_api_jwt_secret"`
 
 echo "✅ Your secrets have been randomly generated and saved in the .env file."
+echo ""
+echo "🟨 Please define your SMTP configuration in the MAILER_DSN variable within the .env file."
+echo "   This will allow your Koalati instance to send emails, which is required for some core features."
+echo "   Refer to Symfony's documentation for more information: https://symfony.com/doc/current/mailer.html#transport-setup"
