@@ -27,7 +27,35 @@ our [Self-Hosting](https://www.koalati.com/self-hosting) page.
    docker-compose up -d
    ```
 
+Once the server is up, you should be able to start using Koalati!
+Open [`https://localhost`](https://localhost) in your browser (or whichever 
+other hostname you configured), and your own instance of Koalati should be up
+and running.
+
+However, there's one last thing you should know about: self-hosted instances of 
+Koalati are in [invitation-only mode](https://github.com/koalatiapp/app/blob/master/docs/system/self-hosting.md#invitation-only-mode) 
+by default. 
+
+This means visitors cannot sign up unless they have been invited by an existing 
+user.
+
+To create that first user, use the `create-user` command:
+
+```bash
+docker-compose exec php bin/console app:security:create-user
+```
+
+And voilà! You're not 
+
 ## Updating your Koalati installation
+
+Every once in a while, you'll want to update your self-hosted instance of 
+Koalati to get the latest features, improvements and bugfixes.
+
+To do that, first make sure your `KOALATI_VERSION` variable is set to `latest`
+in the `.env` file.
+
+Then, run the following commands to update:
 
 ```bash
 docker-compose down --remove-orphans
@@ -37,12 +65,18 @@ docker-compose pull koalati/tools-service
 docker-compose up -d
 ```
 
+## Self-hosting specific changes
 
-## To-Do
-- @TODO: Automatically create tools service tables if they don't exist yet
-- @TODO: Add local file storage support
-- @TODO: Add a local meta fetcher in PHP and use it as the default for self-hosting 
+To learn about self-hosting specific changes, check out our [self-hosting documentation](https://github.com/koalatiapp/app/blob/master/docs/system/self-hosting.md#invitation-only-mode) 
+on Koalati's main repository.
 
+## Security
+
+- Invitation-only mode is enabled by default.
+  - This is done as a security measure to prevent people discovering your 
+    internal Koalati instance and abusing it. 
+  - If your internal Koalati instance is protected via some other security 
+    measure (VPN, .htpasswd, etc.), you may disable this mode.
 
 ## Contributing
 
