@@ -11,15 +11,26 @@ services:
       timeout: 3s
       retries: 3
       start_period: 30s
+    depends_on:
+        database:
+            condition: service_healthy
     environment:
       APP_ENV: prod
+      APP_SECRET: ${APP_SECRET}
       BASE_URL: ${BASE_URL}
+      DATABASE_URL: ${DATABASE_URL}
       MERCURE_URL: http://caddy/.well-known/mercure
       MERCURE_PUBLIC_URL: ${MERCURE_PUBLIC_URL:-https://localhost/.well-known/mercure}
       MERCURE_JWT_SECRET: ${MERCURE_JWT_SECRET}
       TOOLS_API_WORKER_URL: http://tools-service:3000
+      TOOLS_API_WORKER_BEARER_TOKEN: ${TOOLS_API_WORKER_BEARER_TOKEN}
       REDIS_HOST: redis
       REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      MAILER_DSN: ${MAILER_DSN}
+      SENTRY_DSN: ${SENTRY_DSN:-}
+      SELF_HOSTING: ${SELF_HOSTING}
+      INVITE_ONLY_REGISTRATION_MODE: ${INVITE_ONLY_REGISTRATION_MODE}
 
   caddy:
     image: koalati/app-caddy:${KOALATI_VERSION:-latest}
@@ -53,7 +64,8 @@ services:
   tools-service:
     image: koalati/tools-service
     depends_on:
-        - database
+        database:
+            condition: service_healthy
     environment:
       PORT: 3000
       MOCK_API: 0
@@ -65,6 +77,7 @@ services:
       DATABASE_NAME: ${MYSQL_DATABASE}
       DATABASE_PASSWORD: ${MYSQL_PASSWORD}
       DATABASE_USER: ${MYSQL_USER}
+      DATABASE_REJECT_UNAUTHORIZED: ${TOOLS_API_DATABASE_REJECT_UNAUTHORIZED}
     ports:
     - 3000:3000
 
@@ -84,6 +97,17 @@ services:
       - SYS_NICE  # CAP_SYS_NICE
     volumes:
       - db-data:/var/lib/mysql:rw
+    healthcheck: # @TODO: Figure out a more accurate "ready" check
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      interval: 3s
+      timeout: 3s
+      retries: 10
+
+  adminer:
+    image: adminer
+    restart: unless-stopped
+    ports:
+      - ${ADMINER_PORT:-8080}:8080
 
 volumes:
   php_socket:
