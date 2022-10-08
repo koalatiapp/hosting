@@ -29,7 +29,7 @@ base64_urlencode() { sed 's/Cg$//' <<< `openssl enc -base64 -A | tr '+/' '-_' | 
 # Accepts a length as its first argument (defaults to 32).
 generate_secret() { 
 	length="${1:-32}"
-	LC_ALL=C tr -dc 'A-Za-z0-9!%*+,-.:<>?@_{|}~' </dev/urandom | head -c $length ; echo 
+	LC_ALL=C tr -dc 'A-Za-z0-9!%*+,:<>_{|}~' </dev/urandom | head -c $length ; echo 
 }
 
 # Updates the env file to set a value
