@@ -32,6 +32,9 @@ Open [`https://localhost`](https://localhost) in your browser (or whichever
 other hostname you configured), and your own instance of Koalati should be up
 and running.
 
+If you run into SSL certificate issues in your browser, check out the [Troubleshooting section](#troubleshooting)
+for an easy fix.
+
 However, there's one last thing you should know about: self-hosted instances of 
 Koalati are in [invitation-only mode](https://github.com/koalatiapp/app/blob/master/docs/system/self-hosting.md#invitation-only-mode) 
 by default. 
@@ -45,7 +48,7 @@ To create that first user, use the `create-user` command:
 docker-compose exec php bin/console app:security:create-user
 ```
 
-And voilà! You're not 
+And voilà!
 
 ## Updating your Koalati installation
 
@@ -77,6 +80,27 @@ on Koalati's main repository.
     internal Koalati instance and abusing it. 
   - If your internal Koalati instance is protected via some other security 
     measure (VPN, .htpasswd, etc.), you may disable this mode.
+
+## Troubleshooting
+### Untrusted SSL certificate issues
+
+If you have a TLS trust issues, you can copy the self-signed certificate from Caddy and add it to the trusted certificates:
+
+#### Mac
+```bash
+docker cp $(docker compose ps -q caddy):/data/caddy/pki/authorities/local/root.crt /tmp/root.crt && sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain /tmp/root.crt
+```
+
+#### Linux
+```bash
+docker cp $(docker compose ps -q caddy):/data/caddy/pki/authorities/local/root.crt /usr/local/share/ca-certificates/root.crt && sudo update-ca-certificates
+```
+
+#### Windows
+```bash
+docker compose cp caddy:/data/caddy/pki/authorities/local/root.crt %TEMP%/root.crt && certutil -addstore -f "ROOT" %TEMP%/root.crt
+```
+
 
 ## Contributing
 
