@@ -10,6 +10,12 @@ our [Self-Hosting](https://www.koalati.com/self-hosting) page.
 
 ## Getting started
 
+Before you get started, make sure that [Docker](https://www.docker.com/) is 
+installed  on your server/machine and that you are familiar with the way Docker 
+works.
+
+Then, follow the steps below:
+
 1. Clone this repository:
    ```bash
    git clone https://github.com/koalatiapp/hosting.git koalati
