@@ -59,9 +59,9 @@ Then, run the following commands to update:
 
 ```bash
 docker-compose down --remove-orphans
-docker-compose pull koalati/app-php
-docker-compose pull koalati/app-caddy
-docker-compose pull koalati/tools-service
+docker-compose pull php
+docker-compose pull caddy
+docker-compose pull tools-service
 docker-compose up -d
 ```
 
