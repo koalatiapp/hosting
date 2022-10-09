@@ -119,4 +119,4 @@ If your issue or suggestion is about the app itself, you're likely looking for
 the [`app`](https://github.com/koalatiapp/app) repository. 
 
 You can also check  out the rest of the repositories that help run Koalati on 
-[Koalati's GitHub profile](https://github.com/koalatiapp/hosting).
+[Koalati's GitHub profile](https://github.com/koalatiapp).
