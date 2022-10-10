@@ -36,7 +36,12 @@ generate_secret() {
 # 1st argument: variable name
 # 2nd argument: value
 set_env_value() {
-	sed -i '' -e "s/^$1=.*$/$1=$2/" .env
+  # MacOS's sed requires an empty parameter on -i, but others OS don't
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+	  sed -i '' -e "s/^$1=.*$/$1=$2/" .env
+  else
+    sed -i -e "s/^$1=.*$/$1=$2/" .env
+  fi
 }
 
 
