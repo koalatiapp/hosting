@@ -90,7 +90,9 @@ on Koalati's main repository.
 ## Troubleshooting
 ### Untrusted SSL certificate issues
 
-If you have a TLS trust issues, you can copy the self-signed certificate from Caddy and add it to the trusted certificates:
+If you have a TLS trust issues when running Koalati on your local machine, you 
+can copy the self-signed certificate from Caddy and add it to the trusted 
+certificates:
 
 #### Mac
 ```bash
@@ -106,6 +108,13 @@ docker cp $(docker compose ps -q caddy):/data/caddy/pki/authorities/local/root.c
 ```bash
 docker compose cp caddy:/data/caddy/pki/authorities/local/root.crt %TEMP%/root.crt && certutil -addstore -f "ROOT" %TEMP%/root.crt
 ```
+
+### Docker Compose hangs without outputting anything
+
+This is a common issue with `docker-compose` on VPS with limited resources.
+
+Check out [Phillip Elm's suggestion on StackOverflow](https://stackoverflow.com/a/68172225/2327027)
+to fix this issue in just a minute.
 
 
 ## Contributing
