@@ -118,8 +118,22 @@ docker compose cp caddy:/data/caddy/pki/authorities/local/root.crt %TEMP%/root.c
 
 This is a common issue with `docker-compose` on VPS with limited resources.
 
-Check out [Phillip Elm's suggestion on StackOverflow](https://stackoverflow.com/a/68172225/2327027)
-to fix this issue in just a minute.
+First, run the following command:
+
+```bash
+cat /proc/sys/kernel/random/entropy_avail
+```
+
+If the output is less than 1000, that is almost certainly why it's hanging. 
+
+If that's the case for you, you can fix the issue by simply installing `haveged` on your VPS:
+
+```bash
+apt install haveged
+```
+
+Thanks to [Phillip Elm's suggestion on StackOverflow](https://stackoverflow.com/a/68172225/2327027)
+for this fix.
 
 
 ## Contributing
