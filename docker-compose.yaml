@@ -78,6 +78,7 @@ services:
       DATABASE_PASSWORD: ${MYSQL_PASSWORD}
       DATABASE_USER: ${MYSQL_USER}
       DATABASE_REJECT_UNAUTHORIZED: ${TOOLS_API_DATABASE_REJECT_UNAUTHORIZED}
+    restart: unless-stopped
     ports:
     - 3000:3000
 
@@ -98,7 +99,7 @@ services:
     volumes:
       - db-data:/var/lib/mysql:rw
     healthcheck: # @TODO: Figure out a more accurate "ready" check
-      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      test: "mysql -h localhost -u $$MYSQL_USER --password=$$MYSQL_PASSWORD -X --execute \"SHOW DATABASES;\" | grep \">$$MYSQL_DATABASE<\""
       interval: 3s
       timeout: 3s
       retries: 10
