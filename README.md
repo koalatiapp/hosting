@@ -64,7 +64,12 @@ Koalati to get the latest features, improvements and bugfixes.
 To do that, first make sure your `KOALATI_VERSION` variable is set to `latest`
 in the `.env` file.
 
-Then, run the following commands to update:
+Then, make sure your hosting configs are up to date:
+```
+git pull
+```
+
+Finally, run the following commands to update:
 
 ```bash
 docker-compose down --remove-orphans
