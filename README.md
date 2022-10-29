@@ -54,7 +54,8 @@ To create that first user, use the `create-user` command:
 docker-compose exec php bin/console app:security:create-user
 ```
 
-And voilà!
+And _voilà_! You now have your own instance of Koalati!
+
 
 ## Updating your Koalati installation
 
@@ -93,11 +94,15 @@ on Koalati's main repository.
     measure (VPN, .htpasswd, etc.), you may disable this mode.
 
 ## Troubleshooting
-### Untrusted SSL certificate issues
+### ⚠️ Untrusted SSL certificate issues
 
 If you have a TLS trust issues when running Koalati on your local machine, you 
 can copy the self-signed certificate from Caddy and add it to the trusted 
-certificates:
+certificates by running the command for your OS below from within the `koalati`
+directory. 
+
+You may have to restart your browser after running the command for this change 
+to take effect.
 
 #### Mac
 ```bash
@@ -114,12 +119,38 @@ docker cp $(docker compose ps -q caddy):/data/caddy/pki/authorities/local/root.c
 docker compose cp caddy:/data/caddy/pki/authorities/local/root.crt %TEMP%/root.crt && certutil -addstore -f "ROOT" %TEMP%/root.crt
 ```
 
-### Docker Compose hangs without outputting anything
+### ⚠️ Docker Compose hangs without outputting anything
 
 This is a common issue with `docker-compose` on VPS with limited resources.
 
-Check out [Phillip Elm's suggestion on StackOverflow](https://stackoverflow.com/a/68172225/2327027)
-to fix this issue in just a minute.
+First, run the following command:
+
+```bash
+cat /proc/sys/kernel/random/entropy_avail
+```
+
+If the output is less than 1000, that is almost certainly why it's hanging. 
+
+If that's the case for you, you can fix the issue by simply installing `haveged` on your VPS:
+
+```bash
+apt install haveged
+```
+
+Thanks to [Phillip Elm's suggestion on StackOverflow](https://stackoverflow.com/a/68172225/2327027)
+for this fix.
+
+
+## Advanced configurations
+
+If you feel adventurous, you can open and edit your `.env` and `docker-compose.yaml` 
+files as you see fit to configure your Koalati environment to your liking.
+
+For example, you could:
+- Disable Caddy's automatic HTTPS configuration by changing the `SERVER_NAME` variable.
+- Run Koalati on a different port by editing the `docker-compose.yaml`.
+- Use an external MySQL database instead of using the Docker-managed one.
+- Run the tools service externally on a more scalable infrastructure for improved performance.
 
 
 ## Contributing
