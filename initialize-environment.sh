@@ -81,6 +81,7 @@ set_env_value "APP_SECRET" `generate_secret 64`
 set_env_value "REDIS_PASSWORD" `generate_secret 64`
 set_env_value "MYSQL_PASSWORD" `generate_secret 64`
 set_env_value "MERCURE_JWT_SECRET" `generate_secret 64`
+set_env_value "API_JWT_PASSPHRASE" `generate_secret 64`
 
 # Generate tools-service authentication secrets & JWT
 tools_api_jwt_secret=`generate_secret`
